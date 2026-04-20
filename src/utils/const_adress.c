@@ -7,7 +7,7 @@
 // retourne un tableau de 8 constantes + NULL
 char **const_adress(void)
 {
-    char **buf = malloc(sizeof(char *) * 9); // 8 entrées + NULL
+    char **buf = malloc(sizeof(char *) * 9);
     int nb_const = 8;
     int primes[8] = {2, 3, 5, 7, 11, 13, 17, 19};
     double r = 0.0;

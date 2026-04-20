@@ -1,8 +1,5 @@
 NAME_LIB    = libcrypto.a
 SRC_LIB     = src
-LIB_ITEMS   = add32.c and32.c bigSigma0.c bigSigma1.c ch32.c const_adress.c \
-              isPrime.c maj32.c not32.c or32.c rotl32.c rotr32.c shr32.c \
-              SmallSigma0.c SmallSigma1.c xor32.c
 SRC_TEST    = test
 SRC_ITEMS   = test.c
 CC          = gcc
@@ -10,7 +7,7 @@ AR          = ar rc
 # CFLAGS      = -Wall -Wextra -Werror
 INCLUDES	=	includes/
 
-LIB_OBJS    = $(LIB_ITEMS:.c=.o)
+LIB_OBJS    = $(shell find $(SRC_LIB) -name '*.c' | sed 's|\.c$|.o|')
 TEST_OBJS   = $(SRC_ITEMS:.c=.o)
 TARGET      = test_exec
 
@@ -21,7 +18,7 @@ all: lib test
 tests_run: test
 	./$(TARGET)
 
-lib: $(addprefix $(SRC_LIB)/,$(LIB_OBJS))
+lib: $(LIB_OBJS)
 	$(AR) $(NAME_LIB) $^
 
 $(SRC_LIB)/%.o: $(SRC_LIB)/%.c

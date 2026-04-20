@@ -4,7 +4,6 @@
 #include "stdint.h"
 #include "my.h"
 
-// retourne un tableau de 8 constantes
 uint32_t *init_h(void)
 {
     uint32_t *buf = malloc(sizeof(uint32_t) * 8);
