@@ -1,13 +1,17 @@
 #include "my.h"
+#include "struct.h"
 
-static void define_message(uint32_t *w, uint32_t *m)
+static void define_message(uint32_t *w, uint8_t *m)
 {
     for (int i = 0; i < 16; i++) {
-        w[i] = m[i];
+        w[i] = ((uint32_t)m[i * 4] << 24) |
+               ((uint32_t)m[i * 4 + 1] << 16) |
+               ((uint32_t)m[i * 4 + 2] << 8) |
+               ((uint32_t)m[i * 4 + 3]);
     }
 }
 
-uint32_t *build_message_schedule(uint32_t *m)
+uint32_t *build_message_schedule(uint8_t *m)
 {
     uint32_t *w = malloc(sizeof(uint32_t) * 64);
     uint32_t temp = 0;

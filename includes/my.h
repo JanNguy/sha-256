@@ -21,8 +21,8 @@
     uint32_t maj32(uint32_t x, uint32_t y, uint32_t z);
     uint32_t bigSigma0(uint32_t x);
     uint32_t bigSigma1(uint32_t x);
-uint32_t smallSigma0(uint32_t x);
-uint32_t smallSigma1(uint32_t x);
+    uint32_t smallSigma0(uint32_t x);
+    uint32_t smallSigma1(uint32_t x);
 
     // Initialisation
     uint32_t *init_h(void);
@@ -30,13 +30,15 @@ uint32_t smallSigma1(uint32_t x);
 
     // Message et padding
     void add_padding(sha_t *s);
-    uint32_t *build_message_schedule(uint32_t *m);
+    uint32_t *build_message_schedule(uint8_t *m);
     void process_blocks(sha_t *s);
-    void compress(uint32_t *state, uint32_t *w, uint32_t *k);
+    void compression(sha_t *s);
 
     // Utilitaires
     int isPrime(int n);
     char **const_adress(void);
     void sha_256(char *s);
+    sha_t *sha_256_create(char *s);
+    char *digest_to_hex(uint32_t *digest);
 
     #endif /*MY.H*/

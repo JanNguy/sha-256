@@ -8,6 +8,7 @@ typedef struct sha_s {
     uint32_t *states;
     uint8_t *msg;
     uint8_t *msg_pad;
+    char *hex;
 
     //infos
     size_t *len;

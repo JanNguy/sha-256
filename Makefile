@@ -1,39 +1,44 @@
-NAME_LIB    = libcrypto.a
-SRC_LIB     = src
-SRC_TEST    = test
-SRC_ITEMS   = test.c
-CC          = gcc
-AR          = ar rc
-# CFLAGS      = -Wall -Wextra -Werror
-INCLUDES	=	includes/
+NAME		=	libsha.a
+MAIN		=	t_main
+TEST_BIN	=	test_exec
 
-LIB_OBJS    = $(shell find $(SRC_LIB) -name '*.c' | sed 's|\.c$|.o|')
-TEST_OBJS   = $(SRC_ITEMS:.c=.o)
-TARGET      = test_exec
+CC		=	gcc
+AR		=	ar rc
+CFLAGS		=	-Wall -Wextra
+INCLUDES	=	-Iincludes/
 
-.PHONY: all lib test tests_run clean fclean re
+SRC_DIR		=	src
+TEST_DIR	=	test
 
-all: lib test
+LIB_SRC		=	$(shell find $(SRC_DIR) -name '*.c' ! -name 'main.c')
+LIB_OBJ		=	$(LIB_SRC:.c=.o)
+
+TEST_SRC	=	$(TEST_DIR)/test.c
+TEST_OBJ	=	$(TEST_SRC:.c=.o)
+
+all: $(NAME)
+
+$(NAME): $(LIB_OBJ)
+	$(AR) $(NAME) $^
+
+%.o: %.c
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+t_main: $(NAME)
+	$(CC) $(CFLAGS) $(INCLUDES) -o $(MAIN) $(SRC_DIR)/main.c -L. -lsha -lm
+
+test: $(TEST_OBJ) $(NAME)
+	$(CC) $(INCLUDES) -o $(TEST_BIN) $< -L. -lsha -lcriterion -lm
 
 tests_run: test
-	./$(TARGET)
-
-lib: $(LIB_OBJS)
-	$(AR) $(NAME_LIB) $^
-
-$(SRC_LIB)/%.o: $(SRC_LIB)/%.c
-	$(CC) -c $< -o $@ -I$(INCLUDES)
-
-test: $(SRC_TEST)/$(TEST_OBJS) lib
-	$(CC) -o $(TARGET) $< -L. -lcrypto -I$(INCLUDES) -lcriterion -lm
-
-$(SRC_TEST)/%.o: $(SRC_TEST)/%.c
-	$(CC) -c $< -o $@ -I$(INCLUDES)
+	./$(TEST_BIN)
 
 clean:
-	rm -f $(SRC_LIB)/*.o $(SRC_TEST)/*.o
+	$(RM) $(LIB_OBJ) $(TEST_OBJ)
 
 fclean: clean
-	rm -f $(NAME_LIB) $(TARGET)
+	$(RM) $(NAME) $(MAIN) $(TEST_BIN)
 
 re: fclean all
+
+.PHONY: all clean fclean re t_main test tests_run
