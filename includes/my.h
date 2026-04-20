@@ -2,6 +2,7 @@
     #define MY_H
     #include "stdlib.h"
     #include "stdint.h"
+    #include "struct.h"
 
 // Opérations bit à bit
 uint32_t add32(uint32_t a, uint32_t b);
@@ -26,5 +27,7 @@ uint32_t smallSigma1(uint32_t x);
 // Utilitaires
 int isPrime(int n);
 char **const_adress(void);
+int sha_256(char *s);
+void add_padding(sha_t *s);
 
 #endif /*MY.H*/
