@@ -7,7 +7,6 @@
 uint32_t *init_h(void)
 {
     uint32_t *buf = malloc(sizeof(uint32_t) * 8);
-    int nb_const = 8;
     int primes[8] = {2, 3, 5, 7, 11, 13, 17, 19};
     double r = 0.0;
     double frac = 0;
